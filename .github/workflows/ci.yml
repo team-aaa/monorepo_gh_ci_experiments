@@ -28,7 +28,7 @@ jobs:
       id: changed_jobs_check
       uses: ./.github/actions/check
     - name: RSpec
-      if: contains(steps.changed_jobs_check.outputs.changed_jobs, $(pwd))
+      if: contains(steps.changed_jobs_check.outputs.changed_jobs, 'test-1')
       working-directory: ${{ matrix.jobs }}
       run: |
         echo $(pwd)
