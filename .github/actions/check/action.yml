@@ -1,0 +1,8 @@
+name: 'Check changed jobs'
+# description: 'Greet someone and record the time'
+outputs:
+  changed_jobs: # id of output
+    description: 'The time we greeted you'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
