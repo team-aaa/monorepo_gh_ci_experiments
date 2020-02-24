@@ -1,11 +1,9 @@
 ---
 name: test-1
 'on':
-  push:
-    branches: emit-workflow
-  # pull_request:
-  #   paths:
-  #   - test-1/**
+  pull_request:
+    paths:
+    - test-1/**
 jobs:
   test-1:
     runs-on: ubuntu-latest
