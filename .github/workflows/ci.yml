@@ -28,5 +28,5 @@ jobs:
       # if: contains(steps.changed_jobs_check.outputs.changed_jobs, github.workspace)
       working-directory: ${{ matrix.jobs }}
       run: |
-        echo ${{staps.changed_jobs_check.outputs.changed_jobs}}
+        echo ${{steps.changed_jobs_check.outputs.changed_jobs}}
         bundle exec rspec
