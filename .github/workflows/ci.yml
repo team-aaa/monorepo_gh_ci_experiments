@@ -9,10 +9,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        jobs: [test-1, test-2, test-3]
-
     steps:
     - uses: actions/checkout@v2
     - name: Bundle
@@ -25,7 +21,8 @@ jobs:
       id: changed_jobs_check
       uses: ./.github/actions/check
     - name: RSpec
-      run: bundle exec rspec
-      if: [[ " ${steps.changed_jobs_check.outputs.changed_jobs[@]} " =~ " ${github.workspace} " ]] 
-      with:
-        workspace: ${{ matrix.jobs }}
+      run: |
+        for job_name in "${steps.changed_jobs_check.outputs.changed_jobs[@]}"
+        do
+           bundle exec rspec $job_name
+        done
