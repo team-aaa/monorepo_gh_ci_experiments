@@ -1,4 +1,5 @@
 GEM
+  remote: https://rubygems.org/
   remote: https://rubygems.pkg.github.com/forward3d/
   specs:
     ast (2.4.0)
