@@ -1,0 +1,43 @@
+name: monorepo-jobs-ci
+
+on:
+  push:
+    branches:
+      - custom-check-action
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        jobs: [test-1, test-2, test-3]
+        changed_jobs: ${{steps.changed_jobs_check.outputs.changed_jobs}}
+
+    steps:
+    - name: Set up Ruby 2.7
+      uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.7
+    - uses: actions/checkout@v2
+    # - name: Bundle
+    #   run: |
+    #     gem install bundler
+    #     bundle config https://rubygems.pkg.github.com/forward3d ${{ secrets.GITHUB_PACKAGES_TOKEN }}
+    #     bundle install --jobs 4 --retry 3
+    - name: Get changed jobs
+      id: changed_jobs_check
+      uses: ./.github/actions/check
+    - name: RSpec
+      working-directory: ${{ matrix.jobs }}
+      run: |
+        echo $(pwd)
+        echo ${{steps.changed_jobs_check.outputs.changed_jobs}}
+        echo ${{matrix.changed_jobs}}
+
+        gem install bundler
+        bundle config https://rubygems.pkg.github.com/forward3d ${{ secrets.GITHUB_PACKAGES_TOKEN }}
+        bundle install --jobs 4 --retry 3
+
+        bundle exec rspec
+      if: steps.changed_jobs_check.outputs.changed_jobs == ['test-1']
