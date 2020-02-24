@@ -1,0 +1,33 @@
+#!/usr/bin/env ruby
+
+require "yaml"
+require "json"
+require 'pathname'
+require 'erb'
+
+puts File.expand_path("../.github/workflows/ci.yml", __dir__)
+
+IGNORED = %w[
+  .circleci
+  lib
+  bin
+  codebuild
+  codebuild-test
+  .git
+  .github
+  spec
+]
+
+jobs = Pathname.new('.').children.select(&:directory?).map { |dir| dir.basename.to_s } - IGNORED
+
+jobs.each do |job_name|
+  b = binding
+  b.local_variable_set(:job_name, job_name)
+  yaml = YAML.load(ERB.new(File.read(File.expand_path("../lib/gh_workflow_template.yml.erb", __dir__))).result(b))
+  File.open(File.expand_path("../.github/workflows/#{job_name}-test.yml", __dir__), 'w') do |file|
+    file.write(YAML.load(yaml.to_json).to_yaml(line_width: 1024))
+  end
+end
+
+
+puts "Workflow emitted!"
