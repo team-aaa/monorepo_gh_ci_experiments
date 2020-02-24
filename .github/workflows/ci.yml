@@ -19,18 +19,23 @@ jobs:
       with:
         ruby-version: 2.7
     - uses: actions/checkout@v2
-    - name: Bundle
-      run: |
-        gem install bundler
-        bundle config https://rubygems.pkg.github.com/forward3d ${{ secrets.GITHUB_PACKAGES_TOKEN }}
-        bundle install --jobs 4 --retry 3
+    # - name: Bundle
+    #   run: |
+    #     gem install bundler
+    #     bundle config https://rubygems.pkg.github.com/forward3d ${{ secrets.GITHUB_PACKAGES_TOKEN }}
+    #     bundle install --jobs 4 --retry 3
     - name: Get changed jobs
       id: changed_jobs_check
       uses: ./.github/actions/check
     - name: RSpec
-      # if: contains(steps.changed_jobs_check.outputs.changed_jobs, github.workspace)
+      if: contains(steps.changed_jobs_check.outputs.changed_jobs, $(pwd))
       working-directory: ${{ matrix.jobs }}
       run: |
-        echo pwd
+        echo $(pwd)
         echo ${{steps.changed_jobs_check.outputs.changed_jobs}}
+
+        gem install bundler
+        bundle config https://rubygems.pkg.github.com/forward3d ${{ secrets.GITHUB_PACKAGES_TOKEN }}
+        bundle install --jobs 4 --retry 3
+
         bundle exec rspec
