@@ -1,0 +1,4 @@
+inherit_gem:
+  ruby_standard: cops/ruby/rubocop.yml
+
+# Project specific rules here

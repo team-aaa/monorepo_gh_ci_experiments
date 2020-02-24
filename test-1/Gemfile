@@ -1,0 +1,16 @@
+source 'https://rubygems.org'
+
+gem 'airbrake-ruby', '~> 4'
+
+source 'https://rubygems.pkg.github.com/forward3d' do
+  gem 'ruby_standard', '0.10.11.3', group: %i[development test]
+end
+
+group :development, :test do
+  gem 'rspec', '~> 3'
+end
+
+group :test do
+  gem 'rspec_junit_formatter', '~> 0.4', require: false
+  gem 'simplecov', '~> 0.17', require: false
+end
