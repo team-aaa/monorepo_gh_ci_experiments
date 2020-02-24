@@ -27,10 +27,10 @@ jobs:
     - name: Get changed jobs
       id: changed_jobs_check
       uses: ./.github/actions/check
-    - run: echo ${{github.workspace}}
     - name: RSpec
       # if: contains(steps.changed_jobs_check.outputs.changed_jobs, github.workspace)
       working-directory: ${{ matrix.jobs }}
       run: |
+        echo pwd
         echo ${{steps.changed_jobs_check.outputs.changed_jobs}}
         bundle exec rspec
