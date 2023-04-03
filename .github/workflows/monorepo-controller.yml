@@ -13,7 +13,7 @@
           id: controller
           uses: cloudposse/github-action-monorepo-random-controller@0.1.1
           with:
-            dir: (test-*)
+            dir: ". | grep -E 'get|metastore'"
 
       outputs:
         applications: ${{ steps.controller.outputs.apps }}
@@ -32,6 +32,3 @@
           uses: actions/checkout@v3
         - run:
             echo "${{ matrix.application }}"
-            echo "${{ fromJson(needs.monorepo.outputs.applications) }}"
-            echo "${{ fromJson(needs.monorepo.outputs.changes) }}"
-            echo "${{ fromJson(needs.monorepo.outputs.no-changes) }}"
