@@ -32,4 +32,4 @@
           uses: actions/checkout@v3
         - run:
             echo "${{ matrix.application }}"
-            echo "${{needs.monorepo.outputs}}"
+            echo "${{ fromJson(needs.monorepo.outputs) }}"
