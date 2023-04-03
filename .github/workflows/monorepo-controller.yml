@@ -13,7 +13,7 @@
           id: controller
           uses: cloudposse/github-action-monorepo-random-controller@0.1.1
           with:
-            dir: ./
+            dir: (test-*)
 
       outputs:
         applications: ${{ steps.controller.outputs.apps }}
