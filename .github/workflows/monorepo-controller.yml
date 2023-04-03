@@ -13,7 +13,7 @@
           id: controller
           uses: cloudposse/github-action-monorepo-random-controller@0.1.1
           with:
-            dir: ". | grep -E 'get|metastore'"
+            dir: ". | grep -E 'test-1|test-2'"
 
       outputs:
         applications: ${{ steps.controller.outputs.apps }}
